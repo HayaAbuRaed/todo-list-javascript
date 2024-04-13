@@ -43,8 +43,8 @@ const renderTableRows = (tasks) => {
     <td>${task.completed ? "Completed" : "Pending"}</td>
     <td>
       <div class="actions-container">
-        <button>Delete</button>
-        <button>Done</button>
+        <button data-action="delete">Delete</button>
+        <button data-action="complete">Done</button>
       </div>
     </td>
   </tr>
@@ -57,8 +57,19 @@ const updateTotal = () => {
   totalTasks.innerHTML = tasks.length;
 };
 
-// add a new task
+tableBody.addEventListener("click", (event) => {
+  if (event.target.dataset.action === "finish") return;
+  else if (event.target.dataset.action === "delete") deleteTask(event);
+});
+
+/**
+ * Add a new task to the tasks array.
+ *
+ * @param {Event} event - The event object.
+ * @returns {void}
+ */
 addTaskButton.addEventListener("click", () => {
+  // get the value of the new task field and check if it's empty
   const newTaskValue = newTaskField.value.trim();
 
   if (newTaskValue === "") {
@@ -66,6 +77,7 @@ addTaskButton.addEventListener("click", () => {
     return;
   }
 
+  // create a new task object
   const newTask = {
     id: tasks.length + 1,
     todo: newTaskValue,
@@ -73,6 +85,10 @@ addTaskButton.addEventListener("click", () => {
     completed: false,
   };
 
+  /*
+  add the new task to the tasks array, re-render the table,
+  update the total tasks count and reset the input field
+  */
   tasks.push(newTask);
 
   renderTableRows(tasks);
@@ -83,6 +99,22 @@ addTaskButton.addEventListener("click", () => {
 
   showMessage("Task added successfully ✅");
 });
+
+/**
+ * Delete a task from the tasks array.
+ *
+ * @param {Event} event - The event object.
+ * @returns {void}
+ */
+const deleteTask = (event) => {
+  const taskId = event.target.closest("tr").children[0].textContent;
+
+  tasks = tasks.filter((task) => task.id !== parseInt(taskId));
+
+  renderTableRows(tasks);
+
+  updateTotal();
+};
 
 /**
  * Display a message in the UI.
