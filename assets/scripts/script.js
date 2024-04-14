@@ -111,6 +111,10 @@ addTaskButton.addEventListener("click", () => {
 const deleteTask = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
 
+  confirm("Are you sure you want to delete this task?") && removeTask(taskId);
+};
+
+const removeTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== parseInt(taskId));
 
   renderTableRows(tasks);
