@@ -120,11 +120,10 @@ const addTask = () => {
     completed: false,
   };
 
-  /*
-  add the new task to the tasks array, re-render the table,
-  update the total tasks count and reset the input field
-  */
-  tasks.push(newTask);
+  // add the new task to the front of the tasks array if the order is reversed and vice versa
+  JSON.parse(localStorage.getItem("isReversed"))
+    ? tasks.unshift(newTask)
+    : tasks.push(newTask);
 
   updateTasksList(tasks);
 
@@ -274,8 +273,6 @@ const showMessage = (message, success = true) => {
 const reverseButton = document.getElementById("reverse");
 const arrowUp = '<i class="fa-solid fa-arrow-up"></i>';
 const arrowDown = '<i class="fa-solid fa-arrow-down"></i>';
-
-console.log(JSON.parse(localStorage.getItem("isReversed")));
 
 const reverseButtonArrowDirection = () => {
   return JSON.parse(localStorage.getItem("isReversed")) ? arrowDown : arrowUp;
