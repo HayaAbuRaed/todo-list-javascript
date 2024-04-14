@@ -100,10 +100,11 @@ tableBody.addEventListener("click", (event) => {
 /**
  * Add a new task to the tasks array.
  *
- * @param {Event} event - The event object.
+ * it takes no parameters
+ * @param {void}
  * @returns {void}
  */
-addTaskButton.addEventListener("click", () => {
+const addTask = () => {
   // get the value of the new task field and check if it's empty
   const newTaskValue = newTaskField.value.trim();
 
@@ -135,7 +136,14 @@ addTaskButton.addEventListener("click", () => {
   newTaskField.value = "";
 
   showMessage("Task added successfully ✅");
-});
+};
+
+addTaskButton.addEventListener("click", addTask);
+
+newTaskField.addEventListener(
+  "keyup",
+  (event) => event.key === "Enter" && addTask()
+);
 
 /**
  * Delete a task from the tasks array.
