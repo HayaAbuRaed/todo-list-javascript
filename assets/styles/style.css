@@ -6,24 +6,26 @@
 
 body {
   font-family: "Roboto", sans-serif;
+  --error-color: #d50303;
+  --success-color: #4caf50;
 }
 
 .overall-container {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 2em;
-  padding: 0 3em;
+  padding: 2em 3em;
 }
 
 .fields-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75em;
+  gap: 0.5em;
   min-width: 300px;
 }
 
@@ -79,4 +81,26 @@ button {
 
 button ~ button {
   background-color: #4caf50;
+}
+
+.msg {
+  display: block;
+  padding-top: 0.5em;
+  font-size: 0.85rem;
+}
+
+.msg.error {
+  color: var(--error-color);
+}
+
+.msg.success {
+  color: var(--success-color);
+}
+
+input.error {
+  border-color: var(--error-color);
+}
+
+input.success {
+  border-color: var(--success-color);
 }
