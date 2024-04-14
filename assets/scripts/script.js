@@ -44,7 +44,9 @@ const renderTableRows = (tasks) => {
     <td>
       <div class="actions-container">
         <button data-action="delete">Delete</button>
-        <button data-action="finish">Done</button>
+        <button data-action="finish">${
+          task.completed ? "Undo" : "Done"
+        }</button>
       </div>
     </td>
   </tr>
@@ -53,12 +55,15 @@ const renderTableRows = (tasks) => {
 };
 
 // update the total tasks count
-const updateTotal = () => {
-  totalTasks.innerHTML = tasks.length;
+const updateTotal = (total) => {
+  // if total is provided, update the total tasks count by that value,
+  // else update it with the total tasks in the tasks array;
+  // this is to handle the search functionality
+  totalTasks.innerHTML = total >= 0 ? total : tasks.length;
 };
 
 tableBody.addEventListener("click", (event) => {
-  if (event.target.dataset.action === "finish") finishTask(event);
+  if (event.target.dataset.action === "finish") toggleStatus(event);
   else if (event.target.dataset.action === "delete") deleteTask(event);
 });
 
@@ -109,6 +114,10 @@ addTaskButton.addEventListener("click", () => {
 const deleteTask = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
 
+  confirm("Are you sure you want to delete this task?") && removeTask(taskId);
+};
+
+const removeTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== parseInt(taskId));
 
   renderTableRows(tasks);
@@ -117,12 +126,36 @@ const deleteTask = (event) => {
 };
 
 // complete a task
-const finishTask = (event) => {
+const toggleStatus = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
+  const task = tasks[taskId - 1];
 
-  tasks[taskId - 1].completed = true;
+  task.completed = !task.completed;
 
   renderTableRows(tasks);
+};
+
+// Search Tasks: Listen for input events on the search input field
+document
+  .getElementById("search")
+  .addEventListener("input", (event) => searchTask(event));
+
+/**
+ * Search for a task in the tasks array.
+ * Display the results in the UI.
+ * @param {Event} event - The event object.
+ * @returns {void}
+ */
+const searchTask = (event) => {
+  const searchValue = event.target.value.trim().toLowerCase();
+
+  const filteredTasks = tasks.filter((task) =>
+    task.todo.toLowerCase().includes(searchValue)
+  );
+
+  renderTableRows(filteredTasks);
+
+  updateTotal(filteredTasks.length);
 };
 
 /**
