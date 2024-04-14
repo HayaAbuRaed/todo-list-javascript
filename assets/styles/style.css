@@ -104,3 +104,12 @@ input.error {
 input.success {
   border-color: var(--success-color);
 }
+
+.description {
+  cursor: pointer;
+}
+
+.update-task-field {
+  width: 85%;
+  background-color: #f6f6f6;
+}

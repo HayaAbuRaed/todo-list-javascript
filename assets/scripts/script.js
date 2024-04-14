@@ -21,7 +21,7 @@ const renderTableRows = (tasks) => {
     tableBody.innerHTML += `
     <tr>
     <td>${task.id}</td>
-    <td>${task.todo}</td>
+    <td class="description">${task.todo}</td>
     <td>${task.userId}</td>
     <td>${task.completed ? "Completed" : "Pending"}</td>
     <td>
@@ -34,6 +34,11 @@ const renderTableRows = (tasks) => {
     </td>
   </tr>
     `;
+  });
+  setTimeout(() => {
+    document.querySelectorAll("td.description").forEach((taskCell) => {
+      taskCell.addEventListener("dblclick", updateTask);
+    });
   });
 };
 
@@ -179,6 +184,50 @@ const searchTask = (event) => {
   renderTableRows(filteredTasks);
 
   updateTotal(filteredTasks.length);
+};
+
+// TODO update a task
+const updateTask = (event) => {
+  const taskCell = event.target.closest("td");
+  const taskId = taskCell.closest("tr").children[0].textContent;
+  const task = tasks[taskId - 1];
+
+  // switch the to do text with an input field
+  const updateTaskField = document.createElement("input");
+  updateTaskField.classList.add("update-task-field");
+  updateTaskField.value = task.todo;
+
+  taskCell.innerHTML = "";
+
+  taskCell.appendChild(updateTaskField);
+
+  updateTaskField.focus();
+
+  // if focus is lost, remove the input field and display the to do text
+  updateTaskField.addEventListener("blur", () => {
+    taskCell.innerHTML = task.todo;
+    return;
+  });
+
+  // if the enter key is pressed, update the task
+  updateTaskField.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+      updateTaskValue(task, updateTaskField);
+    }
+  });
+};
+
+const updateTaskValue = (task, updateTaskField) => {
+  const newTaskValue = updateTaskField.value.trim();
+
+  if (newTaskValue === null || newTaskValue.trim() === "") {
+    showMessage("Task update cancelled", false);
+    return;
+  }
+
+  task.todo = newTaskValue;
+
+  updateTasksList(tasks, false);
 };
 
 //update the tasks array in local storage
