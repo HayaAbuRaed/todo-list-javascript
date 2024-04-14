@@ -55,8 +55,11 @@ const renderTableRows = (tasks) => {
 };
 
 // update the total tasks count
-const updateTotal = () => {
-  totalTasks.innerHTML = tasks.length;
+const updateTotal = (total) => {
+  // if total is provided, update the total tasks count by that value,
+  // else update it with the total tasks in the tasks array;
+  // this is to handle the search functionality
+  totalTasks.innerHTML = total >= 0 ? total : tasks.length;
 };
 
 tableBody.addEventListener("click", (event) => {
@@ -151,6 +154,8 @@ const searchTask = (event) => {
   );
 
   renderTableRows(filteredTasks);
+
+  updateTotal(filteredTasks.length);
 };
 
 /**
