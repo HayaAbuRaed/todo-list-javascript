@@ -121,7 +121,7 @@ button ~ button {
   margin-left: auto;
 }
 
-.table-task-bar button.up {
+.table-task-bar button {
   padding: 0.35em 0.5em;
   border: 1px #ddd solid;
   border-radius: 5px;
@@ -129,6 +129,10 @@ button ~ button {
   color: #0288d1;
   cursor: pointer;
   font-weight: bold;
+}
+
+.delete-all-button i {
+  color: var(--error-color);
 }
 
 .msg {

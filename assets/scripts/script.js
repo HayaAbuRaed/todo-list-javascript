@@ -292,7 +292,6 @@ const reverseButtonArrowDirection = () => {
 
 reverseButton.innerHTML = reverseButtonArrowDirection();
 
-// add a button to reverse the order of the tasks
 reverseButton.addEventListener("click", () => {
   tasks.reverse();
 
@@ -301,4 +300,13 @@ reverseButton.addEventListener("click", () => {
   localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
 
   reverseButton.innerHTML = reverseButtonArrowDirection();
+});
+
+const deleteAllButton = document.getElementById("delete-all");
+
+deleteAllButton.addEventListener("click", () => {
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    tasks = [];
+    updateTasksList(tasks);
+  }
 });
