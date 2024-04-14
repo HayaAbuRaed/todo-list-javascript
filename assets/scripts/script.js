@@ -19,7 +19,7 @@ const renderTableRows = (tasks) => {
 
   tasks.forEach((task) => {
     tableBody.innerHTML += `
-    <tr>
+    <tr id="row${task.id}">
     <td>${task.id}</td>
     <td class="description">${task.todo}</td>
     <td>${task.userId}</td>
@@ -82,6 +82,10 @@ try {
   console.error(error);
 }
 
+const userId = localStorage.getItem("userId")
+  ? localStorage.getItem("userId")
+  : localStorage.setItem("userId", Math.floor(Math.random() * 100));
+
 // check if tasks array is empty
 if (tasks.length === 0) {
   tableBody.innerHTML = "<tr><td colspan='5'>No tasks found</td></tr>";
@@ -116,7 +120,7 @@ const addTask = () => {
   const newTask = {
     id: tasks.length + 1,
     todo: newTaskValue,
-    userId: Math.floor(Math.random() * 100),
+    userId: JSON.parse(localStorage.getItem("userId")),
     completed: false,
   };
 
@@ -130,6 +134,14 @@ const addTask = () => {
   newTaskField.value = "";
 
   showMessage("Task added successfully ✅");
+
+  document.getElementById(`row${newTask.id}`).style.backgroundColor =
+    "rgba(25, 196, 25, 0.235)";
+
+  setTimeout(() => {
+    document.getElementById(`row${newTask.id}`).style.backgroundColor =
+      "transparent";
+  }, 3000);
 };
 
 addTaskButton.addEventListener("click", addTask);
@@ -154,8 +166,10 @@ const deleteTask = (event) => {
 const removeTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== parseInt(taskId));
 
-  // subtract 1 from the id of each task after the deleted task
-  tasks.forEach((task, index) => (task.id = index + 1));
+  // subtract 1 from the all the ides that are greater than the deleted task id
+  tasks.forEach((task) => {
+    if (task.id > taskId) task.id -= 1;
+  });
 
   updateTasksList(tasks);
 };
@@ -280,7 +294,6 @@ const reverseButtonArrowDirection = () => {
 
 reverseButton.innerHTML = reverseButtonArrowDirection();
 
-// add a button to reverse the order of the tasks
 reverseButton.addEventListener("click", () => {
   tasks.reverse();
 
@@ -289,4 +302,13 @@ reverseButton.addEventListener("click", () => {
   localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
 
   reverseButton.innerHTML = reverseButtonArrowDirection();
+});
+
+const deleteAllButton = document.getElementById("delete-all");
+
+deleteAllButton.addEventListener("click", () => {
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    tasks = [];
+    updateTasksList(tasks);
+  }
 });
