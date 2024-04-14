@@ -8,59 +8,12 @@ const msg = document.getElementById("msg");
 const addTaskButton = document.getElementById("add-button");
 const newTaskField = document.getElementById("new-task");
 
-// fetch the data from the API
-// const fetchTasks = async () => {
-//   try {
-//     let response = await fetch("https://dummyjson.com/todos");
-//     let data = await response.json();
-
-//     tasks = data.todos;
-
-//     renderTableRows(tasks);
-
-//     localStorage.setItem("tasks", JSON.stringify(tasks));
-//     updateTotal();
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
-const fetchTasks = async () => {
-  try {
-    let response = await fetch("https://dummyjson.com/todos");
-    let data = await response.json();
-
-    return data.todos;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-const storedTasks = localStorage.getItem("tasks");
-
-try {
-  (async () => {
-    if (storedTasks) tasks = JSON.parse(storedTasks);
-    else {
-      tasks = await fetchTasks();
-      updateLocalStorage(tasks);
-    }
-
-    setTimeout(() => {
-      renderTableRows(tasks);
-      updateTotal();
-    });
-  })();
-} catch (error) {
-  console.error(error);
-}
-
-// check if tasks array is empty
-if (tasks.length === 0) {
-  tableBody.innerHTML = "<tr><td colspan='5'>No tasks found</td></tr>";
-}
-
-// render the todo tasks in table rows
+/**
+ * Render the table rows in the UI.
+ *
+ * @param {Array} tasks - The tasks array.
+ * @returns {void}
+ */
 const renderTableRows = (tasks) => {
   tableBody.innerHTML = "";
 
@@ -84,6 +37,17 @@ const renderTableRows = (tasks) => {
   });
 };
 
+const fetchTasks = async () => {
+  try {
+    let response = await fetch("https://dummyjson.com/todos");
+    let data = await response.json();
+
+    return data.todos;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 // update the total tasks count
 const updateTotal = (total) => {
   // if total is provided, update the total tasks count by that value,
@@ -91,6 +55,28 @@ const updateTotal = (total) => {
   // this is to handle the search functionality
   totalTasks.innerHTML = total >= 0 ? total : tasks.length;
 };
+
+const storedTasks = localStorage.getItem("tasks");
+
+try {
+  (async () => {
+    if (storedTasks) tasks = JSON.parse(storedTasks);
+    else {
+      tasks = await fetchTasks();
+      updateLocalStorage(tasks);
+    }
+
+    renderTableRows(tasks);
+    updateTotal();
+  })();
+} catch (error) {
+  console.error(error);
+}
+
+// check if tasks array is empty
+if (tasks.length === 0) {
+  tableBody.innerHTML = "<tr><td colspan='5'>No tasks found</td></tr>";
+}
 
 tableBody.addEventListener("click", (event) => {
   if (event.target.dataset.action === "finish") toggleStatus(event);
@@ -127,11 +113,7 @@ const addTask = () => {
   */
   tasks.push(newTask);
 
-  updateLocalStorage(tasks);
-
-  renderTableRows(tasks);
-
-  updateTotal();
+  updateTasksList(tasks);
 
   newTaskField.value = "";
 
@@ -163,11 +145,7 @@ const removeTask = (taskId) => {
   // subtract 1 from the id of each task after the deleted task
   tasks.forEach((task, index) => (task.id = index + 1));
 
-  updateLocalStorage(tasks);
-
-  renderTableRows(tasks);
-
-  updateTotal();
+  updateTasksList(tasks);
 };
 
 // complete a task
@@ -177,9 +155,7 @@ const toggleStatus = (event) => {
 
   task.completed = !task.completed;
 
-  updateLocalStorage(tasks);
-
-  renderTableRows(tasks);
+  updateTasksList(tasks, false);
 };
 
 // Search Tasks: Listen for input events on the search input field
@@ -208,6 +184,14 @@ const searchTask = (event) => {
 //update the tasks array in local storage
 const updateLocalStorage = () => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+const updateTasksList = (tasks, isLengthAffected = true) => {
+  updateLocalStorage(tasks);
+
+  renderTableRows(tasks);
+
+  isLengthAffected && updateTotal();
 };
 
 /**
