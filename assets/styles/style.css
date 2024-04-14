@@ -96,7 +96,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1em;
+  gap: 0.5em;
 }
 
 button {
@@ -191,8 +191,4 @@ input.success {
   .table-container {
     overflow-x: auto;
   }
-
-  /* .tasks-table{
-    overflow: auto;
-  } */
 }
