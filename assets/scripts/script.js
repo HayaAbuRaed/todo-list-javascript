@@ -9,23 +9,53 @@ const addTaskButton = document.getElementById("add-button");
 const newTaskField = document.getElementById("new-task");
 
 // fetch the data from the API
+// const fetchTasks = async () => {
+//   try {
+//     let response = await fetch("https://dummyjson.com/todos");
+//     let data = await response.json();
+
+//     tasks = data.todos;
+
+//     renderTableRows(tasks);
+
+//     localStorage.setItem("tasks", JSON.stringify(tasks));
+//     updateTotal();
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
 const fetchTasks = async () => {
   try {
     let response = await fetch("https://dummyjson.com/todos");
     let data = await response.json();
 
-    tasks = data.todos;
-
-    renderTableRows(tasks);
-
-    updateTotal();
+    return data.todos;
   } catch (error) {
     console.error(error);
   }
 };
 
-fetchTasks();
+const storedTasks = localStorage.getItem("tasks");
 
+try {
+  (async () => {
+    if (storedTasks) tasks = JSON.parse(storedTasks);
+    else {
+      tasks = await fetchTasks();
+      updateLocalStorage(tasks);
+    }
+
+    setTimeout(() => {
+      renderTableRows(tasks);
+      updateTotal();
+    });
+  })();
+} catch (error) {
+  console.error(error);
+}
+
+// check if tasks array is empty
 if (tasks.length === 0) {
   tableBody.innerHTML = "<tr><td colspan='5'>No tasks found</td></tr>";
 }
@@ -96,6 +126,8 @@ addTaskButton.addEventListener("click", () => {
   */
   tasks.push(newTask);
 
+  updateLocalStorage(tasks);
+
   renderTableRows(tasks);
 
   updateTotal();
@@ -120,6 +152,11 @@ const deleteTask = (event) => {
 const removeTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== parseInt(taskId));
 
+  // subtract 1 from the id of each task after the deleted task
+  tasks.forEach((task, index) => (task.id = index + 1));
+
+  updateLocalStorage(tasks);
+
   renderTableRows(tasks);
 
   updateTotal();
@@ -131,6 +168,8 @@ const toggleStatus = (event) => {
   const task = tasks[taskId - 1];
 
   task.completed = !task.completed;
+
+  updateLocalStorage(tasks);
 
   renderTableRows(tasks);
 };
@@ -156,6 +195,11 @@ const searchTask = (event) => {
   renderTableRows(filteredTasks);
 
   updateTotal(filteredTasks.length);
+};
+
+//update the tasks array in local storage
+const updateLocalStorage = () => {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
 /**
