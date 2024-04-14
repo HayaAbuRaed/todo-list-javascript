@@ -82,6 +82,10 @@ try {
   console.error(error);
 }
 
+const userId = localStorage.getItem("userId")
+  ? localStorage.getItem("userId")
+  : localStorage.setItem("userId", Math.floor(Math.random() * 100));
+
 // check if tasks array is empty
 if (tasks.length === 0) {
   tableBody.innerHTML = "<tr><td colspan='5'>No tasks found</td></tr>";
@@ -116,7 +120,7 @@ const addTask = () => {
   const newTask = {
     id: tasks.length + 1,
     todo: newTaskValue,
-    userId: Math.floor(Math.random() * 100),
+    userId: JSON.parse(localStorage.getItem("userId")),
     completed: false,
   };
 
