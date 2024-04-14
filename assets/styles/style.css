@@ -52,6 +52,7 @@ input {
 .table-task-bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1em;
 }
 

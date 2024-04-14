@@ -19,7 +19,7 @@ const renderTableRows = (tasks) => {
 
   tasks.forEach((task) => {
     tableBody.innerHTML += `
-    <tr>
+    <tr id="row${task.id}">
     <td>${task.id}</td>
     <td class="description">${task.todo}</td>
     <td>${task.userId}</td>
@@ -134,6 +134,14 @@ const addTask = () => {
   newTaskField.value = "";
 
   showMessage("Task added successfully ✅");
+
+  document.getElementById(`row${newTask.id}`).style.backgroundColor =
+    "rgba(25, 196, 25, 0.235)";
+
+  setTimeout(() => {
+    document.getElementById(`row${newTask.id}`).style.backgroundColor =
+      "transparent";
+  }, 3000);
 };
 
 addTaskButton.addEventListener("click", addTask);
