@@ -44,7 +44,9 @@ const renderTableRows = (tasks) => {
     <td>
       <div class="actions-container">
         <button data-action="delete">Delete</button>
-        <button data-action="finish">Done</button>
+        <button data-action="finish">${
+          task.completed ? "Undo" : "Done"
+        }</button>
       </div>
     </td>
   </tr>
@@ -58,7 +60,7 @@ const updateTotal = () => {
 };
 
 tableBody.addEventListener("click", (event) => {
-  if (event.target.dataset.action === "finish") finishTask(event);
+  if (event.target.dataset.action === "finish") toggleStatus(event);
   else if (event.target.dataset.action === "delete") deleteTask(event);
 });
 
@@ -117,10 +119,11 @@ const deleteTask = (event) => {
 };
 
 // complete a task
-const finishTask = (event) => {
+const toggleStatus = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
+  const task = tasks[taskId - 1];
 
-  tasks[taskId - 1].completed = true;
+  task.completed = !task.completed;
 
   renderTableRows(tasks);
 };
