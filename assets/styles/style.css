@@ -41,6 +41,21 @@ input {
   width: 100%;
 }
 
+.table-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.note {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #999;
+  align-self: left;
+  font-style: italic;
+}
+
 .tasks-table {
   width: 100%;
   border-collapse: collapse;
@@ -114,13 +129,4 @@ input.success {
 .update-task-field {
   width: 85%;
   background-color: #f6f6f6;
-}
-
-.note {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #999;
-  align-self: left;
-  padding-bottom: 1em;
-  font-style: italic;
 }
