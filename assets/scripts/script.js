@@ -166,8 +166,10 @@ const deleteTask = (event) => {
 const removeTask = (taskId) => {
   tasks = tasks.filter((task) => task.id !== parseInt(taskId));
 
-  // subtract 1 from the id of each task after the deleted task
-  tasks.forEach((task, index) => (task.id = index + 1));
+  // subtract 1 from the all the ides that are greater than the deleted task id
+  tasks.forEach((task) => {
+    if (task.id > taskId) task.id -= 1;
+  });
 
   updateTasksList(tasks);
 };
