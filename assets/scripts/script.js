@@ -88,6 +88,10 @@ tableBody.addEventListener("click", (event) => {
   else if (event.target.dataset.action === "delete") deleteTask(event);
 });
 
+setTimeout(() => {
+  document.querySelector(".note").hidden = true;
+}, 6000);
+
 /**
  * Add a new task to the tasks array.
  *

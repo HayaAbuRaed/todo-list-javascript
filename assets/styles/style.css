@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Sora:wght@100..800&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +7,7 @@
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Sora", sans-serif;
   --error-color: #d50303;
   --success-color: #4caf50;
 }
@@ -112,4 +114,13 @@ input.success {
 .update-task-field {
   width: 85%;
   background-color: #f6f6f6;
+}
+
+.note {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #999;
+  align-self: left;
+  padding-bottom: 1em;
+  font-style: italic;
 }
