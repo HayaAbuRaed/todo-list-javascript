@@ -132,6 +132,27 @@ const toggleStatus = (event) => {
   renderTableRows(tasks);
 };
 
+// Search Tasks: Listen for input events on the search input field
+document
+  .getElementById("search")
+  .addEventListener("input", (event) => searchTask(event));
+
+/**
+ * Search for a task in the tasks array.
+ * Display the results in the UI.
+ * @param {Event} event - The event object.
+ * @returns {void}
+ */
+const searchTask = (event) => {
+  const searchValue = event.target.value.trim().toLowerCase();
+
+  const filteredTasks = tasks.filter((task) =>
+    task.todo.toLowerCase().includes(searchValue)
+  );
+
+  renderTableRows(filteredTasks);
+};
+
 /**
  * Display a message in the UI.
  *
