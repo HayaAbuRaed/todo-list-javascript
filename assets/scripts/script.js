@@ -26,10 +26,13 @@ const renderTableRows = (tasks) => {
     <td>${task.completed ? "Completed" : "Pending"}</td>
     <td>
       <div class="actions-container">
-        <button data-action="delete">Delete</button>
-        <button data-action="finish">${
-          task.completed ? "Undo" : "Done"
-        }</button>
+        <button data-action="delete">
+          <i class="fa-solid fa-xmark button-icon"></i>
+          Delete
+        </button>
+        <button data-action="finish">
+          <i class="fa-solid fa-check button-icon"></i>
+          ${task.completed ? "Undo" : "Done"}</button>
       </div>
     </td>
   </tr>
@@ -73,6 +76,7 @@ try {
 
     renderTableRows(tasks);
     updateTotal();
+    localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
   })();
 } catch (error) {
   console.error(error);
@@ -116,11 +120,10 @@ const addTask = () => {
     completed: false,
   };
 
-  /*
-  add the new task to the tasks array, re-render the table,
-  update the total tasks count and reset the input field
-  */
-  tasks.push(newTask);
+  // add the new task to the front of the tasks array if the order is reversed and vice versa
+  JSON.parse(localStorage.getItem("isReversed"))
+    ? tasks.unshift(newTask)
+    : tasks.push(newTask);
 
   updateTasksList(tasks);
 
@@ -266,3 +269,24 @@ const showMessage = (message, success = true) => {
     newTaskField.classList.remove("success", "error");
   }, 3000);
 };
+
+const reverseButton = document.getElementById("reverse");
+const arrowUp = '<i class="fa-solid fa-arrow-up"></i>';
+const arrowDown = '<i class="fa-solid fa-arrow-down"></i>';
+
+const reverseButtonArrowDirection = () => {
+  return JSON.parse(localStorage.getItem("isReversed")) ? arrowDown : arrowUp;
+};
+
+reverseButton.innerHTML = reverseButtonArrowDirection();
+
+// add a button to reverse the order of the tasks
+reverseButton.addEventListener("click", () => {
+  tasks.reverse();
+
+  updateTasksList(tasks, false);
+
+  localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
+
+  reverseButton.innerHTML = reverseButtonArrowDirection();
+});

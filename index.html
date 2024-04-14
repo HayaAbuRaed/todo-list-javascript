@@ -17,7 +17,10 @@
         <!-- <form> -->
         <div>
           <input type="text" placeholder="Add new task..." id="new-task" />
-          <button id="add-button">Add</button>
+          <button id="add-button" class="add-button">
+            <i class="fa-solid fa-plus button-icon"></i>
+            Add
+          </button>
           <span class="msg" id="msg"></span>
         </div>
         <!-- </form> -->
@@ -33,7 +36,15 @@
 
       <!-- TO-DO Tasks Table: -->
       <div class="table-container">
-        <p class="note">** Double click to edit a task.</p>
+        <div class="table-task-bar">
+          <p class="note">** Double click to edit a task.</p>
+          <div class="buttons-set">
+            <button id="reverse" class="up">
+              <!-- <i class="fa-solid fa-arrow-up"></i> -->
+            </button>
+          </div>
+        </div>
+
         <table class="tasks-table">
           <thead>
             <tr>
