@@ -26,10 +26,13 @@ const renderTableRows = (tasks) => {
     <td>${task.completed ? "Completed" : "Pending"}</td>
     <td>
       <div class="actions-container">
-        <button data-action="delete">Delete</button>
-        <button data-action="finish">${
-          task.completed ? "Undo" : "Done"
-        }</button>
+        <button data-action="delete">
+          <i class="fa-solid fa-xmark button-icon"></i>
+          Delete
+        </button>
+        <button data-action="finish">
+          <i class="fa-solid fa-check button-icon"></i>
+          ${task.completed ? "Undo" : "Done"}</button>
       </div>
     </td>
   </tr>
