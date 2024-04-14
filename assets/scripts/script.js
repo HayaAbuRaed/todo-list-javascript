@@ -76,6 +76,7 @@ try {
 
     renderTableRows(tasks);
     updateTotal();
+    localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
   })();
 } catch (error) {
   console.error(error);
@@ -269,3 +270,26 @@ const showMessage = (message, success = true) => {
     newTaskField.classList.remove("success", "error");
   }, 3000);
 };
+
+const reverseButton = document.getElementById("reverse");
+const arrowUp = '<i class="fa-solid fa-arrow-up"></i>';
+const arrowDown = '<i class="fa-solid fa-arrow-down"></i>';
+
+console.log(JSON.parse(localStorage.getItem("isReversed")));
+
+const reverseButtonArrowDirection = () => {
+  return JSON.parse(localStorage.getItem("isReversed")) ? arrowDown : arrowUp;
+};
+
+reverseButton.innerHTML = reverseButtonArrowDirection();
+
+// add a button to reverse the order of the tasks
+reverseButton.addEventListener("click", () => {
+  tasks.reverse();
+
+  updateTasksList(tasks, false);
+
+  localStorage.setItem("isReversed", tasks[0].id - tasks[1].id > 0);
+
+  reverseButton.innerHTML = reverseButtonArrowDirection();
+});
