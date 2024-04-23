@@ -177,7 +177,10 @@ const removeTask = (taskId) => {
 // complete a task
 const toggleStatus = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
-  const task = tasks[taskId - 1];
+  const task =
+    localStorage.getItem("isReversed") == "true"
+      ? tasks[taskId - taskId]
+      : tasks[taskId - 1];
 
   task.completed = !task.completed;
 
