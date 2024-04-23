@@ -38,6 +38,7 @@ const renderTableRows = (tasks) => {
   </tr>
     `;
   });
+
   setTimeout(() => {
     document.querySelectorAll("td.description").forEach((taskCell) => {
       taskCell.addEventListener("dblclick", updateTask);
@@ -58,9 +59,8 @@ const fetchTasks = async () => {
 
 // update the total tasks count
 const updateTotal = (total) => {
-  // if total is provided, update the total tasks count by that value,
-  // else update it with the total tasks in the tasks array;
-  // this is to handle the search functionality
+  /* if total is provided, update the total tasks count by that value, else update it with the total tasks
+  in the tasks array; this is to handle the search functionality */
   totalTasks.innerHTML = total >= 0 ? total : tasks.length;
 };
 
@@ -177,7 +177,10 @@ const removeTask = (taskId) => {
 // complete a task
 const toggleStatus = (event) => {
   const taskId = event.target.closest("tr").children[0].textContent;
-  const task = tasks[taskId - 1];
+  const task =
+    localStorage.getItem("isReversed") == "true"
+      ? tasks[taskId - taskId]
+      : tasks[taskId - 1];
 
   task.completed = !task.completed;
 
@@ -207,11 +210,20 @@ const searchTask = (event) => {
   updateTotal(filteredTasks.length);
 };
 
-// TODO update a task
+/**
+ * Update a task in the tasks array.
+ * Display the updated task in the UI.
+ *
+ * @param {Event} event - The event object.
+ * @returns {void}
+ */
 const updateTask = (event) => {
   const taskCell = event.target.closest("td");
   const taskId = taskCell.closest("tr").children[0].textContent;
-  const task = tasks[taskId - 1];
+  const task =
+    localStorage.getItem("isReversed") === "true"
+      ? tasks[tasks.length - taskId]
+      : tasks[taskId - 1];
 
   // switch the to do text with an input field
   const updateTaskField = document.createElement("input");
@@ -232,9 +244,7 @@ const updateTask = (event) => {
 
   // if the enter key is pressed, update the task
   updateTaskField.addEventListener("keyup", (event) => {
-    if (event.key === "Enter") {
-      updateTaskValue(task, updateTaskField);
-    }
+    event.key === "Enter" && updateTaskValue(task, updateTaskField);
   });
 };
 
