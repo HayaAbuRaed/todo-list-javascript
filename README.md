@@ -27,10 +27,10 @@ Feel free to explore the functionality and experiment with adding, removing, and
 <br /> <br />
 
 ## 💻 Technologies Used
+- <img src="https://img.shields.io/badge/HTML-red?style=flat-square&logo=html5&labelColor=%23f2f2f2&color=red" width="90" />
+- <img src="https://img.shields.io/badge/CSS-blue?style=flat-square&logo=css3&logoColor=%231572B6&labelColor=%23f2f2f2&color=%231572B6" width="80" />
+- <img src="https://img.shields.io/badge/Javascript-yellow?style=flat-square&logo=Javascript&labelColor=%23f2f2f2&color=%23F7DF1E" width="125" />
 
-- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="45" height="45"/>
-- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="45" height="45"/> 
-- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="38" height="38"/>
 
 <br />
 
