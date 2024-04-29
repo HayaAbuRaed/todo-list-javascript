@@ -19,7 +19,7 @@ This project is a simple to-do list application built using HTML, CSS, and JavaS
 You can see the live demo of this project by visiting [this link](https://tasks-todoo.netlify.app/).
 <br /><br />
 <p align= "center">
-  <img src="https://github.com/HayaAbuRaed/todo-list-javascript/assets/123592435/fed29399-ef03-4730-86a5-200a1070f598" alt="preview" width="550"/>
+  <img src="https://github.com/HayaAbuRaed/todo-list-javascript/assets/123592435/4606f13f-45e8-47a5-b320-c31ee0a01169" alt="preview" width="550"/>
 </p>
 <br />
 Feel free to explore the functionality and experiment with adding, removing, and completing tasks!
