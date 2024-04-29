@@ -46,7 +46,7 @@ Feel free to explore the functionality and experiment with adding, removing, and
 
 <br /> <br /> <br />
 
-<hr/>
+##
 <p align="center">
 	✨ I'll be glad seeing your feedback, feel free to reach out! ✨
 </p>
